@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
 import Index from "./pages/Index";
 import Explore from "./pages/Explore";
@@ -18,7 +18,6 @@ import Footer from "./components/shared/Footer";
 import HifzQuran from "./pages/articles/HifzQuran";
 import Tajweed from "./pages/articles/Tajweed";
 import LearnArabic from "./pages/articles/LearnArabic";
-import { Analytics } from "@vercel/analytics/react";
 
 const queryClient = new QueryClient();
 
@@ -44,6 +43,17 @@ const App = () => (
           <Route path="/articles/hifz-quran" element={<HifzQuran />} />
           <Route path="/articles/tajweed" element={<Tajweed />} />
           <Route path="/articles/learn-arabic" element={<LearnArabic />} />
+          {/* Legacy URL redirects for indexed links */}
+          <Route path="/explore-quran" element={<Navigate to="/explore/quran" replace />} />
+          <Route path="/explore-arabic" element={<Navigate to="/explore/arabic" replace />} />
+          <Route
+            path="/learn-to-read-quran"
+            element={<Navigate to="/explore/learntoreadquran" replace />}
+          />
+          <Route
+            path="/explore/learn-to-read-quran"
+            element={<Navigate to="/explore/learntoreadquran" replace />}
+          />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
