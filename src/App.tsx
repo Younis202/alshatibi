@@ -18,6 +18,7 @@ import Footer from "./components/shared/Footer";
 import HifzQuran from "./pages/articles/HifzQuran";
 import Tajweed from "./pages/articles/Tajweed";
 import LearnArabic from "./pages/articles/LearnArabic";
+import { Analytics } from "@vercel/analytics/react";
 
 const queryClient = new QueryClient();
 
