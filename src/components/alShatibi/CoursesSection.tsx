@@ -1,5 +1,7 @@
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Link } from "react-router-dom";
 import { AnimateOnScroll } from "@/hooks/useScrollAnimation";
+import { useCourses } from "@/hooks/useCourses";
 // @ts-ignore
 import "swiper/css";
 
@@ -12,13 +14,21 @@ const StackIcon = () => (
   </svg>
 );
 
-const courses = [
-  { title: "Surah-by-Surah", subtitle: "Study the Quran", image: "https://www.bayyinahtv.com/_nuxt/course-1.CCzIhRaj.png", href: "/library/surah" },
-  { title: "Subject-by-Subject", subtitle: "Study the Quran", image: "https://www.bayyinahtv.com/_nuxt/course-2.6E1ZzyGy.png", href: "/library/series" },
-  { title: "Step-by-Step", subtitle: "Study Quranic Arabic", image: "https://www.bayyinahtv.com/_nuxt/oourse-3.Cvgcu6V3.png", href: "/library/arabic" },
-];
-
 const CoursesSection = () => {
+  const { data: courses } = useCourses({ featured: true });
+  const display = (courses ?? []).slice(0, 3);
+
+  const items = display.length > 0 ? display.map((c: any) => ({
+    title: c.title,
+    subtitle: c.subtitle ?? "Study the Quran",
+    image: c.thumbnail_url ?? "https://www.bayyinahtv.com/_nuxt/course-1.CCzIhRaj.png",
+    href: `/courses/${c.slug}`,
+  })) : [
+    { title: "Surah-by-Surah Tafseer", subtitle: "Study the Quran", image: "https://www.bayyinahtv.com/_nuxt/course-1.CCzIhRaj.png", href: "/courses" },
+    { title: "Subject-by-Subject Quran", subtitle: "Study the Quran", image: "https://www.bayyinahtv.com/_nuxt/course-2.6E1ZzyGy.png", href: "/courses" },
+    { title: "Step-by-Step Arabic", subtitle: "Study Quranic Arabic", image: "https://www.bayyinahtv.com/_nuxt/oourse-3.Cvgcu6V3.png", href: "/courses" },
+  ];
+
   return (
     <div className="relative pt-12 md:pt-16 bg-[rgb(30_21_25/var(--tw-bg-opacity,1))]">
       <div className="absolute top-0 left-0 w-full h-ful">
@@ -42,10 +52,10 @@ const CoursesSection = () => {
         </div>
         <div className="-mx-3 courses-slider">
           <Swiper spaceBetween={0} slidesPerView="auto" className="">
-            {courses.map((course, i) => (
-              <SwiperSlide key={course.title}>
+            {items.map((course, i) => (
+              <SwiperSlide key={course.title + i}>
                 <AnimateOnScroll delay={i * 0.15}>
-                  <a href={course.href} className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">
+                  <Link to={course.href} className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">
                     <div className="px-2.5 overflow-hidden lg:px-3">
                       <div className="relative rounded-lg">
                         <div className="relative w-full h-[280px] md:h-[300px] lg:h-auto 2xl:h-[448px]">
@@ -58,7 +68,7 @@ const CoursesSection = () => {
                         </div>
                       </div>
                     </div>
-                  </a>
+                  </Link>
                 </AnimateOnScroll>
               </SwiperSlide>
             ))}

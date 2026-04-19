@@ -1,27 +1,58 @@
 import { AnimateOnScroll } from "@/hooks/useScrollAnimation";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { BookOpen, Users, Headphones } from "lucide-react";
+
+// Fallback when no instructors yet
+const FALLBACK_CARDS = [
+  {
+    image: "https://explore.bayyinahtv.com/wp-content/uploads/2025/06/le-image1.1GFQfRsw.png",
+    title: "Clear. Structured. Accessible.",
+    description: "No more guesswork. Follow a step-by-step path with smart filters to guide your Quran journey at your own pace.",
+    icon: BookOpen,
+  },
+  {
+    image: "https://ik.imagekit.io/ihhlj9kpd/unna%D8%B3%D8%B3med%20copy.png",
+    title: "Taught by world-class scholars",
+    description: "Learn from trusted teachers whose lessons are backed by a global research team that consults scholars across languages and traditions.",
+    icon: Users,
+  },
+  {
+    image: "https://www.bayyinahtv.com/_nuxt/le-image2.BbcuLHw6.png",
+    title: "Learn Your Way",
+    description: "Watch or listen, track your progress and pick up right where you left off — anytime, on any device.",
+    icon: Headphones,
+  },
+];
 
 const WhyBayyinahCards = () => {
-  const cards = [
-    {
-      image:
-        "https://explore.bayyinahtv.com/wp-content/uploads/2025/06/le-image1.1GFQfRsw.png",
-      title: "Clear. Structured. Accessible.",
-      description:
-        "No more guesswork. Follow a step-by- step path with smart filters to guide your Quran journey at your own pace.",
+  // Pull a real featured instructor from DB to inject into the middle card
+  const { data: featuredInstructor } = useQuery({
+    queryKey: ["featured-instructor"],
+    queryFn: async () => {
+      const { data } = await supabase
+        .from("instructors")
+        .select("name, title, avatar_url, bio")
+        .order("created_at", { ascending: true })
+        .limit(1)
+        .maybeSingle();
+      return data;
     },
-    {
-      image: "https://ik.imagekit.io/ihhlj9kpd/unna%D8%B3%D8%B3med%20copy.png",
-      title: "Taught by Sheikh Ahmed Seraj",
-      description:
-        "Learn from a trusted teacher whose lessons are backed by a global research team that consults scholars across languages and traditions.",
-    },
-    {
-      image: "https://www.bayyinahtv.com/_nuxt/le-image2.BbcuLHw6.png",
-      title: "Learn Your Way",
-      description:
-        "Watch or listen, track your progress and pick up right where you left off - anytime, on any device.",
-    },
-  ];
+  });
+
+  const cards = FALLBACK_CARDS.map((c, i) => {
+    if (i === 1 && featuredInstructor) {
+      return {
+        ...c,
+        image: featuredInstructor.avatar_url ?? c.image,
+        title: `Taught by ${featuredInstructor.name}`,
+        description:
+          featuredInstructor.bio ||
+          `${featuredInstructor.title ?? "Senior instructor"} — backed by a global research team consulting scholars across traditions.`,
+      };
+    }
+    return c;
+  });
 
   return (
     <>
@@ -48,13 +79,14 @@ const WhyBayyinahCards = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
             {cards.map((card, index) => (
               <AnimateOnScroll key={index} delay={index * 0.15}>
-                <div className="text-center">
-                  <div className="w-full">
+                <div className="text-center group">
+                  <div className="w-full overflow-hidden rounded-xl md:rounded-2xl xl:rounded-3xl">
                     <img
                       decoding="async"
                       src={card.image}
                       alt={card.title}
-                      className="mx-auto rounded-xl md:rounded-2xl xl:rounded-3xl"
+                      loading="lazy"
+                      className="mx-auto rounded-xl md:rounded-2xl xl:rounded-3xl transition-transform duration-700 group-hover:scale-105 w-full aspect-[1/.78] object-cover"
                       style={{ marginTop: "1.5rem", marginBottom: "1.5rem" }}
                     />
                   </div>

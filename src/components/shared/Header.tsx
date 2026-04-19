@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 
 const BayyinahLogo = () => (
   <svg
@@ -23,58 +24,26 @@ const BayyinahLogo = () => (
 );
 
 const ArrowSVG = () => (
-  <svg
-    className="flex-shrink-0 w-2.5 lg:w-3"
-    xmlns="http://www.w3.org/2000/svg"
-    fill="none"
-    viewBox="0 0 13 14"
-  >
-    <path
-      fill="#fff"
-      d="M11.813.75c.519 0 .937.418.937.938v9.374c0 .52-.418.938-.938.938a.935.935 0 0 1-.937-.938V3.95l-9.023 9.028a.937.937 0 0 1-1.324-1.324L9.55 2.628l-7.114-.004a.935.935 0 0 1-.937-.938c0-.519.418-.937.938-.937h9.374Z"
-    ></path>
+  <svg className="flex-shrink-0 w-2.5 lg:w-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 13 14">
+    <path fill="#fff" d="M11.813.75c.519 0 .937.418.937.938v9.374c0 .52-.418.938-.938.938a.935.935 0 0 1-.937-.938V3.95l-9.023 9.028a.937.937 0 0 1-1.324-1.324L9.55 2.628l-7.114-.004a.935.935 0 0 1-.937-.938c0-.519.418-.937.938-.937h9.374Z" />
   </svg>
 );
 
 const ChevronDownSVG = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    fill="none"
-    viewBox="0 0 21 20"
-    className="w-4 h-4 ml-1 transition-transform duration-300"
-  >
-    <path
-      fill="currentColor"
-      d="M10.217 14.736a.878.878 0 0 0 1.256 0l7.115-7.197a.903.903 0 0 0 0-1.271.881.881 0 0 0-1.256 0l-6.482 6.56-6.485-6.564a.878.878 0 0 0-1.256 0 .907.907 0 0 0 0 1.271l7.108 7.2Z"
-    ></path>
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 21 20" className="w-4 h-4 ml-1 transition-transform duration-300">
+    <path fill="currentColor" d="M10.217 14.736a.878.878 0 0 0 1.256 0l7.115-7.197a.903.903 0 0 0 0-1.271.881.881 0 0 0-1.256 0l-6.482 6.56-6.485-6.564a.878.878 0 0 0-1.256 0 .907.907 0 0 0 0 1.271l7.108 7.2Z" />
   </svg>
 );
 
 const ChevronRightSVG = () => (
-  <svg
-    className="w-4 xl:w-5"
-    xmlns="http://www.w3.org/2000/svg"
-    fill="none"
-    viewBox="0 0 20 20"
-  >
-    <path
-      fill="#fff"
-      d="M14.736 9.368a.878.878 0 0 1 0 1.255L7.539 17.74a.904.904 0 0 1-1.271 0 .881.881 0 0 1 0-1.256l6.56-6.482-6.564-6.486a.878.878 0 0 1 0-1.255.907.907 0 0 1 1.271 0l7.2 7.108Z"
-    ></path>
+  <svg className="w-4 xl:w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+    <path fill="#fff" d="M14.736 9.368a.878.878 0 0 1 0 1.255L7.539 17.74a.904.904 0 0 1-1.271 0 .881.881 0 0 1 0-1.256l6.56-6.482-6.564-6.486a.878.878 0 0 1 0-1.255.907.907 0 0 1 1.271 0l7.2 7.108Z" />
   </svg>
 );
 
 const ArrowRightIcon = () => (
-  <svg
-    fill="none"
-    viewBox="0 0 18 16"
-    xmlns="http://www.w3.org/2000/svg"
-    className="w-3.5 md:w-4"
-  >
-    <path
-      d="M17.7109 8.67801C17.8945 8.50223 18 8.25614 18 7.99833C18 7.74051 17.8945 7.49833 17.7109 7.31864L10.8359 0.75614C10.4609 0.396765 9.86719 0.41239 9.51172 0.78739C9.15625 1.16239 9.16797 1.75614 9.54297 2.11161L14.7227 7.06083H1.4375C0.917969 7.06083 0.5 7.4788 0.5 7.99833C0.5 8.51786 0.917969 8.93583 1.4375 8.93583H14.7227L9.53906 13.8811C9.16406 14.2405 9.15234 14.8304 9.50781 15.2054C9.86328 15.5804 10.457 15.5921 10.832 15.2366L17.707 8.67411L17.7109 8.67801Z"
-      fill="currentColor"
-    ></path>
+  <svg fill="none" viewBox="0 0 18 16" xmlns="http://www.w3.org/2000/svg" className="w-3.5 md:w-4">
+    <path d="M17.7109 8.67801C17.8945 8.50223 18 8.25614 18 7.99833C18 7.74051 17.8945 7.49833 17.7109 7.31864L10.8359 0.75614C10.4609 0.396765 9.86719 0.41239 9.51172 0.78739C9.15625 1.16239 9.16797 1.75614 9.54297 2.11161L14.7227 7.06083H1.4375C0.917969 7.06083 0.5 7.4788 0.5 7.99833C0.5 8.51786 0.917969 8.93583 1.4375 8.93583H14.7227L9.53906 13.8811C9.16406 14.2405 9.15234 14.8304 9.50781 15.2054C9.86328 15.5804 10.457 15.5921 10.832 15.2366L17.707 8.67411L17.7109 8.67801Z" fill="currentColor" />
   </svg>
 );
 
@@ -83,43 +52,15 @@ interface BrowseItem {
   href: string;
   description: string;
 }
-
 interface BrowseCategory {
   label: string;
   children: BrowseItem[];
 }
 
 const browseCategories: BrowseCategory[] = [
-  {
-    label: "Quran",
-    children: [
-      {
-        label: "See All Quran Courses",
-        href: "/explore/quran",
-        description: "Surah-by-Surah, Subject-by-Subject",
-      },
-    ],
-  },
-  {
-    label: "Arabic",
-    children: [
-      {
-        label: "See All Arabic Courses",
-        href: "/explore/arabic",
-        description: "Step-by-Step Arabic Learning",
-      },
-    ],
-  },
-  {
-    label: "Learn To Read",
-    children: [
-      {
-        label: "See All Arabic Courses",
-        href: "/explore/learnToReadQuran",
-        description: "Step-by-Step Way To Read Quran",
-      },
-    ],
-  },
+  { label: "Quran", children: [{ label: "See All Quran Courses", href: "/explore/quran", description: "Surah-by-Surah, Subject-by-Subject" }] },
+  { label: "Arabic", children: [{ label: "See All Arabic Courses", href: "/explore/arabic", description: "Step-by-Step Arabic Learning" }] },
+  { label: "Learn To Read", children: [{ label: "Learn to Read Quran", href: "/explore/learntoreadquran", description: "Step-by-Step Way To Read Quran" }] },
 ];
 
 const Header = () => {
@@ -128,9 +69,12 @@ const Header = () => {
   const [activeCat, setActiveCat] = useState<string | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileSubmenu, setMobileSubmenu] = useState<string | null>(null);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
   const browseRef = useRef<HTMLDivElement>(null);
+  const userMenuRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
-  const isHome = location.pathname === "/";
+  const navigate = useNavigate();
+  const { isAuthenticated, user, signOut, hasRole } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -140,9 +84,8 @@ const Header = () => {
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (browseRef.current && !browseRef.current.contains(e.target as Node)) {
-        setBrowseOpen(false);
-      }
+      if (browseRef.current && !browseRef.current.contains(e.target as Node)) setBrowseOpen(false);
+      if (userMenuRef.current && !userMenuRef.current.contains(e.target as Node)) setUserMenuOpen(false);
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
@@ -151,7 +94,15 @@ const Header = () => {
   useEffect(() => {
     setMobileMenuOpen(false);
     setMobileSubmenu(null);
+    setUserMenuOpen(false);
   }, [location]);
+
+  const handleSignOut = async () => {
+    await signOut();
+    navigate("/");
+  };
+
+  const userInitial = (user?.user_metadata?.full_name || user?.email || "U")[0].toUpperCase();
 
   return (
     <>
@@ -162,19 +113,12 @@ const Header = () => {
       >
         <div className="px-6 sm:px-6 md:px-8 lg:px-10 xxl:px-24 py-4 md:py-5 lg:py-6">
           <div className="flex items-center justify-between">
-            {/* Left: Logo + Nav */}
             <div className="flex items-center gap-x-6 lg:gap-x-10">
-              <Link
-                to="/"
-                className="flex-shrink-0"
-                aria-label="Al Shatibi TV Home"
-              >
+              <Link to="/" className="flex-shrink-0" aria-label="Al Shatibi TV Home">
                 <BayyinahLogo />
               </Link>
 
-              {/* Desktop Navigation */}
               <nav className="hidden md:flex items-center gap-x-1 lg:gap-x-2">
-                {/* Browse Dropdown */}
                 <div ref={browseRef} className="relative">
                   <button
                     onClick={() => setBrowseOpen(!browseOpen)}
@@ -189,25 +133,17 @@ const Header = () => {
                   {browseOpen && (
                     <div className="absolute top-full left-0 pt-3 z-50">
                       <div className="flex bg-[#231311] rounded-xl border border-[#533531] overflow-hidden shadow-2xl min-w-[280px]">
-                        {/* Categories */}
                         <div className="p-4 lg:p-5 min-w-[220px] xl:min-w-[260px]">
                           {browseCategories.map((cat) => (
-                            <div
-                              key={cat.label}
-                              className="relative"
-                              onMouseEnter={() => setActiveCat(cat.label)}
-                            >
+                            <div key={cat.label} className="relative" onMouseEnter={() => setActiveCat(cat.label)}>
                               <div className="flex items-center justify-between p-3 rounded-lg cursor-pointer transition-all duration-200 hover:bg-[#452824]">
-                                <span className="text-white text-base lg:text-lg">
-                                  {cat.label}
-                                </span>
+                                <span className="text-white text-base lg:text-lg">{cat.label}</span>
                                 <ChevronRightSVG />
                               </div>
                             </div>
                           ))}
                         </div>
 
-                        {/* Sub-items panel */}
                         {activeCat && (
                           <div className="bg-[#1a0e0c] border-l border-[#533531] p-4 lg:p-5 min-w-[260px] xl:min-w-[300px]">
                             {browseCategories
@@ -220,12 +156,8 @@ const Header = () => {
                                   className="flex items-center justify-between p-3 rounded-lg transition-all duration-200 hover:bg-[#452824] group"
                                 >
                                   <div>
-                                    <div className="text-white text-base">
-                                      {child.label}
-                                    </div>
-                                    <div className="text-white/50 text-sm mt-0.5">
-                                      {child.description}
-                                    </div>
+                                    <div className="text-white text-base">{child.label}</div>
+                                    <div className="text-white/50 text-sm mt-0.5">{child.description}</div>
                                   </div>
                                   <ArrowSVG />
                                 </Link>
@@ -237,95 +169,108 @@ const Header = () => {
                   )}
                 </div>
 
-                <Link
-                  to="/explore"
-                  className="px-4 py-2 rounded-lg text-sm lg:text-base font-medium text-white transition-all duration-300 hover:bg-[#4D3B38]/60"
-                >
+                <Link to="/library" className="px-4 py-2 rounded-lg text-sm lg:text-base font-medium text-white transition-all duration-300 hover:bg-[#4D3B38]/60">
+                  Library
+                </Link>
+
+                <Link to="/courses" className="px-4 py-2 rounded-lg text-sm lg:text-base font-medium text-white transition-all duration-300 hover:bg-[#4D3B38]/60">
+                  Courses
+                </Link>
+
+                <Link to="/explore" className="px-4 py-2 rounded-lg text-sm lg:text-base font-medium text-white transition-all duration-300 hover:bg-[#4D3B38]/60">
                   Explore
                 </Link>
 
-                <a
-                  href="/?scrollTo=pricing"
-                  className="px-4 py-2 rounded-lg text-sm lg:text-base font-medium text-white transition-all duration-300 hover:bg-[#4D3B38]/60"
-                >
+                <a href="/?scrollTo=pricing" className="px-4 py-2 rounded-lg text-sm lg:text-base font-medium text-white transition-all duration-300 hover:bg-[#4D3B38]/60">
                   Pricing
                 </a>
               </nav>
             </div>
 
-            {/* Right: Actions */}
             <div className="flex items-center gap-x-3 lg:gap-x-4">
-              {/* Search Icon */}
-              <button
-                className="hidden sm:flex items-center justify-center w-10 h-10 rounded-lg transition-colors duration-300 hover:bg-[#4D3B38]/60"
-                aria-label="Search"
-              >
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 22 22"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M9.96875 17.1875C13.9556 17.1875 17.1875 13.9556 17.1875 9.96875C17.1875 5.98194 13.9556 2.75 9.96875 2.75C5.98194 2.75 2.75 5.98194 2.75 9.96875C2.75 13.9556 5.98194 17.1875 9.96875 17.1875Z"
-                    stroke="#9ca3af"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M15.073 15.0735L19.2496 19.2501"
-                    stroke="#9ca3af"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
+              <button className="hidden sm:flex items-center justify-center w-10 h-10 rounded-lg transition-colors duration-300 hover:bg-[#4D3B38]/60" aria-label="Search">
+                <svg width="20" height="20" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M9.96875 17.1875C13.9556 17.1875 17.1875 13.9556 17.1875 9.96875C17.1875 5.98194 13.9556 2.75 9.96875 2.75C5.98194 2.75 2.75 5.98194 2.75 9.96875C2.75 13.9556 5.98194 17.1875 9.96875 17.1875Z" stroke="#9ca3af" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M15.073 15.0735L19.2496 19.2501" stroke="#9ca3af" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </button>
 
-              {/* Sign In */}
-              <Link
-                to="/contact"
-                className="hidden lg:flex h-10 text-sm xl:text-base min-w-fit cursor-pointer transition-all duration-300 focus:outline-none focus:ring-0 items-center justify-center font-semibold text-white border-2 border-red-accent rounded-lg py-4 px-4 xl:px-5 hover:bg-btn-gradient hover:border-red-accent"
-              >
-                <span className="flex items-center font-sans flex-shrink-0">
-                  Sign In to Al Shatibi TV
-                </span>
-              </Link>
+              {isAuthenticated ? (
+                <div ref={userMenuRef} className="relative">
+                  <button
+                    onClick={() => setUserMenuOpen(!userMenuOpen)}
+                    className="flex items-center gap-2 h-10 pl-1 pr-3 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 transition-colors"
+                    aria-label="User menu"
+                  >
+                    <span className="w-8 h-8 rounded-full bg-btn-gradient text-white text-sm font-semibold flex items-center justify-center">
+                      {userInitial}
+                    </span>
+                    <ChevronDownSVG />
+                  </button>
 
-              {/* Start Learning CTA */}
-              <Link
-                to="/contact"
-                className="hidden sm:flex h-10 px-4 xl:px-6 text-sm xl:text-base min-w-fit cursor-pointer transition-all duration-300 focus:outline-none focus:ring-0 items-center justify-center font-semibold text-white bg-btn-gradient border border-red-accent rounded-lg hover:opacity-90"
-              >
-                <span className="flex items-center font-sans flex-shrink-0 gap-2">
-                  Start Learning
-                  <ArrowRightIcon />
-                </span>
-              </Link>
+                  {userMenuOpen && (
+                    <div className="absolute top-full right-0 mt-2 w-56 bg-[#231311] border border-[#533531] rounded-xl shadow-2xl overflow-hidden z-50">
+                      <div className="px-4 py-3 border-b border-[#533531]">
+                        <div className="text-white text-sm font-medium truncate">
+                          {user?.user_metadata?.full_name || "Student"}
+                        </div>
+                        <div className="text-white/50 text-xs truncate">{user?.email}</div>
+                      </div>
+                      <Link to="/dashboard" className="block px-4 py-2.5 text-white text-sm hover:bg-[#452824] transition-colors">
+                        My Dashboard
+                      </Link>
+                      <Link to="/dashboard/courses" className="block px-4 py-2.5 text-white text-sm hover:bg-[#452824] transition-colors">
+                        My Courses
+                      </Link>
+                      <Link to="/profile" className="block px-4 py-2.5 text-white text-sm hover:bg-[#452824] transition-colors">
+                        Profile
+                      </Link>
+                      <Link to="/settings" className="block px-4 py-2.5 text-white text-sm hover:bg-[#452824] transition-colors">
+                        Settings
+                      </Link>
+                      {hasRole("admin") && (
+                        <Link to="/admin" className="block px-4 py-2.5 text-red-accent text-sm hover:bg-[#452824] transition-colors border-t border-[#533531]">
+                          ⚡ Admin Panel
+                        </Link>
+                      )}
+                      <button
+                        onClick={handleSignOut}
+                        className="block w-full text-left px-4 py-2.5 text-white/70 text-sm hover:bg-[#452824] hover:text-white transition-colors border-t border-[#533531]"
+                      >
+                        Sign Out
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <>
+                  <Link
+                    to="/auth"
+                    className="hidden lg:flex h-10 text-sm xl:text-base min-w-fit cursor-pointer transition-all duration-300 focus:outline-none focus:ring-0 items-center justify-center font-semibold text-white border-2 border-red-accent rounded-lg py-4 px-4 xl:px-5 hover:bg-btn-gradient hover:border-red-accent"
+                  >
+                    <span className="flex items-center font-sans flex-shrink-0">Sign In</span>
+                  </Link>
 
-              {/* Mobile Hamburger */}
+                  <Link
+                    to="/auth"
+                    className="hidden sm:flex h-10 px-4 xl:px-6 text-sm xl:text-base min-w-fit cursor-pointer transition-all duration-300 focus:outline-none focus:ring-0 items-center justify-center font-semibold text-white bg-btn-gradient border border-red-accent rounded-lg hover:opacity-90"
+                  >
+                    <span className="flex items-center font-sans flex-shrink-0 gap-2">
+                      Start Learning
+                      <ArrowRightIcon />
+                    </span>
+                  </Link>
+                </>
+              )}
+
               <button
                 className="md:hidden flex flex-col justify-center items-center w-10 h-10 gap-1.5"
                 aria-label="Menu"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               >
-                <span
-                  className={`block w-6 h-0.5 bg-white transition-all duration-300 ${
-                    mobileMenuOpen ? "rotate-45 translate-y-2" : ""
-                  }`}
-                />
-                <span
-                  className={`block w-6 h-0.5 bg-white transition-all duration-300 ${
-                    mobileMenuOpen ? "opacity-0" : ""
-                  }`}
-                />
-                <span
-                  className={`block w-6 h-0.5 bg-white transition-all duration-300 ${
-                    mobileMenuOpen ? "-rotate-45 -translate-y-2" : ""
-                  }`}
-                />
+                <span className={`block w-6 h-0.5 bg-white transition-all duration-300 ${mobileMenuOpen ? "rotate-45 translate-y-2" : ""}`} />
+                <span className={`block w-6 h-0.5 bg-white transition-all duration-300 ${mobileMenuOpen ? "opacity-0" : ""}`} />
+                <span className={`block w-6 h-0.5 bg-white transition-all duration-300 ${mobileMenuOpen ? "-rotate-45 -translate-y-2" : ""}`} />
               </button>
             </div>
           </div>
@@ -339,36 +284,18 @@ const Header = () => {
             {browseCategories.map((cat) => (
               <div key={cat.label}>
                 <button
-                  onClick={() =>
-                    setMobileSubmenu(
-                      mobileSubmenu === cat.label ? null : cat.label
-                    )
-                  }
+                  onClick={() => setMobileSubmenu(mobileSubmenu === cat.label ? null : cat.label)}
                   className="flex items-center justify-between w-full text-lg text-white py-3 px-4 rounded-lg hover:bg-[#4D3B38]/60 transition-colors"
                 >
                   {cat.label}
-                  <svg
-                    className={`w-5 h-5 transition-transform duration-300 ${
-                      mobileSubmenu === cat.label ? "rotate-90" : ""
-                    }`}
-                    fill="none"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      fill="currentColor"
-                      d="M14.736 9.368a.878.878 0 0 1 0 1.255L7.539 17.74a.904.904 0 0 1-1.271 0 .881.881 0 0 1 0-1.256l6.56-6.482-6.564-6.486a.878.878 0 0 1 0-1.255.907.907 0 0 1 1.271 0l7.2 7.108Z"
-                    />
+                  <svg className={`w-5 h-5 transition-transform duration-300 ${mobileSubmenu === cat.label ? "rotate-90" : ""}`} fill="none" viewBox="0 0 20 20">
+                    <path fill="currentColor" d="M14.736 9.368a.878.878 0 0 1 0 1.255L7.539 17.74a.904.904 0 0 1-1.271 0 .881.881 0 0 1 0-1.256l6.56-6.482-6.564-6.486a.878.878 0 0 1 0-1.255.907.907 0 0 1 1.271 0l7.2 7.108Z" />
                   </svg>
                 </button>
                 {mobileSubmenu === cat.label && (
                   <div className="pl-4 pb-2">
                     {cat.children.map((child) => (
-                      <Link
-                        key={child.label}
-                        to={child.href}
-                        className="block text-white/80 py-2.5 px-4 text-base rounded-lg hover:bg-[#4D3B38]/40 transition-colors"
-                        onClick={() => setMobileMenuOpen(false)}
-                      >
+                      <Link key={child.label} to={child.href} className="block text-white/80 py-2.5 px-4 text-base rounded-lg hover:bg-[#4D3B38]/40 transition-colors" onClick={() => setMobileMenuOpen(false)}>
                         {child.label}
                       </Link>
                     ))}
@@ -377,38 +304,38 @@ const Header = () => {
               </div>
             ))}
 
-            <Link
-              to="/explore"
-              className="text-lg text-white py-3 px-4 rounded-lg hover:bg-[#4D3B38]/60 transition-colors"
-              onClick={() => setMobileMenuOpen(false)}
-            >
+            <Link to="/explore" className="text-lg text-white py-3 px-4 rounded-lg hover:bg-[#4D3B38]/60 transition-colors" onClick={() => setMobileMenuOpen(false)}>
               Explore
             </Link>
 
-            <a
-              href="/?scrollTo=pricing"
-              className="text-lg text-white py-3 px-4 rounded-lg hover:bg-[#4D3B38]/60 transition-colors"
-              onClick={() => setMobileMenuOpen(false)}
-            >
+            <a href="/?scrollTo=pricing" className="text-lg text-white py-3 px-4 rounded-lg hover:bg-[#4D3B38]/60 transition-colors" onClick={() => setMobileMenuOpen(false)}>
               Pricing
             </a>
 
             <div className="mt-6 flex flex-col gap-3 px-4">
-              <Link
-                to="/contact"
-                className="h-12 text-base cursor-pointer transition-all duration-300 flex items-center justify-center font-semibold text-white border-2 border-red-accent rounded-lg"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Sign In to Al Shatibi TV
-              </Link>
-              <Link
-                to="/contact"
-                className="h-12 text-base cursor-pointer transition-all duration-300 flex items-center justify-center font-semibold text-white bg-btn-gradient border border-red-accent rounded-lg gap-2"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Start Learning
-                <ArrowRightIcon />
-              </Link>
+              {isAuthenticated ? (
+                <>
+                  <Link to="/dashboard" className="h-12 text-base flex items-center justify-center font-semibold text-white border-2 border-red-accent rounded-lg" onClick={() => setMobileMenuOpen(false)}>
+                    My Dashboard
+                  </Link>
+                  <button
+                    onClick={() => { handleSignOut(); setMobileMenuOpen(false); }}
+                    className="h-12 text-base flex items-center justify-center font-semibold text-white bg-btn-gradient border border-red-accent rounded-lg"
+                  >
+                    Sign Out
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link to="/auth" className="h-12 text-base flex items-center justify-center font-semibold text-white border-2 border-red-accent rounded-lg" onClick={() => setMobileMenuOpen(false)}>
+                    Sign In
+                  </Link>
+                  <Link to="/auth" className="h-12 text-base flex items-center justify-center font-semibold text-white bg-btn-gradient border border-red-accent rounded-lg gap-2" onClick={() => setMobileMenuOpen(false)}>
+                    Start Learning
+                    <ArrowRightIcon />
+                  </Link>
+                </>
+              )}
             </div>
           </nav>
         </div>
