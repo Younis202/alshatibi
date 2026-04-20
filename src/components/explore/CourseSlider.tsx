@@ -1,6 +1,7 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import { useRef } from "react";
+import { Link } from "react-router-dom";
 import type { Swiper as SwiperType } from "swiper";
 import { AnimateOnScroll } from "@/hooks/useScrollAnimation";
 // @ts-ignore
@@ -71,14 +72,12 @@ const CourseSlider = ({ heading, description, courses }: CourseSliderProps) => {
                         <p>{course.description}</p>
                       </div>
                       <div className="mt-4 lg:mt-6">
-                        <a
-                          href={course.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="px-3 pt-2 pb-1.5 md:pb-2 md:pt-2.5 text-xs md:text-sm leading-none border rounded-xl text-[#ffeada] border-[#9ca3af]/40 link-color duration-200 hover:bg-[#ffeada] hover:text-black hover:border-[#ffeada]"
+                        <Link
+                          to="/enroll"
+                          className="inline-block px-3 pt-2 pb-1.5 md:pb-2 md:pt-2.5 text-xs md:text-sm leading-none border rounded-xl text-[#ffeada] border-[#9ca3af]/40 link-color duration-200 hover:bg-[#ffeada] hover:text-black hover:border-[#ffeada]"
                         >
-                          Start Now
-                        </a>
+                          Apply Now
+                        </Link>
                       </div>
                     </div>
                   </div>

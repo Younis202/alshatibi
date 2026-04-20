@@ -1,13 +1,11 @@
 import { ReactNode, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
+import { useNewApplicationsCount } from "@/hooks/useNewApplicationsCount";
 import {
   LayoutDashboard,
-  BookOpen,
-  Users,
-  GraduationCap,
-  MessageSquare,
-  BarChart3,
+  Inbox,
+  Star,
   Settings,
   LogOut,
   Menu,
@@ -21,14 +19,12 @@ const AdminLayout = ({ children }: { children: ReactNode }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const { count: newCount } = useNewApplicationsCount();
 
   const items = [
     { to: "/admin", icon: LayoutDashboard, label: "Overview" },
-    { to: "/admin/courses", icon: BookOpen, label: "Courses" },
-    { to: "/admin/instructors", icon: GraduationCap, label: "Instructors" },
-    { to: "/admin/students", icon: Users, label: "Students" },
-    { to: "/admin/reviews", icon: MessageSquare, label: "Reviews" },
-    { to: "/admin/analytics", icon: BarChart3, label: "Analytics" },
+    { to: "/admin/applications", icon: Inbox, label: "Applications", badge: newCount },
+    { to: "/admin/testimonials", icon: Star, label: "Testimonials" },
     { to: "/admin/settings", icon: Settings, label: "Settings" },
   ];
 
@@ -41,10 +37,12 @@ const AdminLayout = ({ children }: { children: ReactNode }) => {
     to,
     icon: Icon,
     label,
+    badge,
   }: {
     to: string;
     icon: typeof LayoutDashboard;
     label: string;
+    badge?: number;
   }) => {
     const active = location.pathname === to;
     return (
@@ -58,7 +56,16 @@ const AdminLayout = ({ children }: { children: ReactNode }) => {
         }`}
       >
         <Icon className="w-4 h-4 flex-shrink-0" />
-        <span>{label}</span>
+        <span className="flex-1">{label}</span>
+        {badge !== undefined && badge > 0 && (
+          <span
+            className={`min-w-[22px] h-[22px] px-1.5 rounded-full text-[11px] font-semibold flex items-center justify-center ${
+              active ? "bg-white text-red-accent" : "bg-red-accent text-white animate-pulse"
+            }`}
+          >
+            {badge > 99 ? "99+" : badge}
+          </span>
+        )}
       </Link>
     );
   };
@@ -101,11 +108,11 @@ const AdminLayout = ({ children }: { children: ReactNode }) => {
 
             <div className="border-t border-grey-brand/10 pt-4 space-y-1">
               <Link
-                to="/dashboard"
+                to="/"
                 className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-sans text-grey-brand/65 hover:text-grey-brand hover:bg-grey-brand/5 transition-all"
               >
                 <ArrowLeft className="w-4 h-4" />
-                Back to Student Mode
+                Back to Site
               </Link>
               <button
                 onClick={handleSignOut}

@@ -1,6 +1,4 @@
 import { AnimateOnScroll } from "@/hooks/useScrollAnimation";
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
 import { BookOpen, Users, Headphones } from "lucide-react";
 
 // Fallback when no instructors yet
@@ -26,33 +24,7 @@ const FALLBACK_CARDS = [
 ];
 
 const WhyBayyinahCards = () => {
-  // Pull a real featured instructor from DB to inject into the middle card
-  const { data: featuredInstructor } = useQuery({
-    queryKey: ["featured-instructor"],
-    queryFn: async () => {
-      const { data } = await supabase
-        .from("instructors")
-        .select("name, title, avatar_url, bio")
-        .order("created_at", { ascending: true })
-        .limit(1)
-        .maybeSingle();
-      return data;
-    },
-  });
-
-  const cards = FALLBACK_CARDS.map((c, i) => {
-    if (i === 1 && featuredInstructor) {
-      return {
-        ...c,
-        image: featuredInstructor.avatar_url ?? c.image,
-        title: `Taught by ${featuredInstructor.name}`,
-        description:
-          featuredInstructor.bio ||
-          `${featuredInstructor.title ?? "Senior instructor"} — backed by a global research team consulting scholars across traditions.`,
-      };
-    }
-    return c;
-  });
+  const cards = FALLBACK_CARDS;
 
   return (
     <>

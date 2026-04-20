@@ -113,7 +113,7 @@ const Footer = () => {
                       <h3 className="font-heading text-lg font-bold text-white 2xl:text-xl">Company</h3>
                       <ul className="flex flex-col mt-1 ml-0 text-base lg:mt-2 2xl:text-lg">
                         <li className="!my-1 lg:!my-2">
-                          <Link className="inline-flex text-white link-color hover-underline" to="/contact">Contact</Link>
+                          <Link className="inline-flex text-white link-color hover-underline" to="/enroll">Apply</Link>
                         </li>
                         <li className="!my-1 lg:!my-2">
                           <a className="inline-flex text-white link-color hover-underline" href="#" rel="noopener noreferrer">Store</a>

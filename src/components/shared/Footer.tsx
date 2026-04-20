@@ -168,9 +168,9 @@ const Footer = () => {
                         <li className="!my-1 lg:!my-2">
                           <Link
                             className="inline-flex text-white link-color hover-underline font-sans"
-                            to="/contact"
+                            to="/enroll"
                           >
-                            Contact
+                            Apply
                           </Link>
                         </li>
                         <li className="!my-1 lg:!my-2">

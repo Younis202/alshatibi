@@ -169,21 +169,17 @@ const Header = () => {
                   )}
                 </div>
 
-                <Link to="/library" className="px-4 py-2 rounded-lg text-sm lg:text-base font-medium text-white transition-all duration-300 hover:bg-[#4D3B38]/60">
-                  Library
-                </Link>
-
-                <Link to="/courses" className="px-4 py-2 rounded-lg text-sm lg:text-base font-medium text-white transition-all duration-300 hover:bg-[#4D3B38]/60">
-                  Courses
-                </Link>
-
                 <Link to="/explore" className="px-4 py-2 rounded-lg text-sm lg:text-base font-medium text-white transition-all duration-300 hover:bg-[#4D3B38]/60">
                   Explore
                 </Link>
 
-                <a href="/?scrollTo=pricing" className="px-4 py-2 rounded-lg text-sm lg:text-base font-medium text-white transition-all duration-300 hover:bg-[#4D3B38]/60">
+                <Link to="/enroll" className="px-4 py-2 rounded-lg text-sm lg:text-base font-medium text-white transition-all duration-300 hover:bg-[#4D3B38]/60">
+                  Apply
+                </Link>
+
+                <Link to="/#pricingSection" className="px-4 py-2 rounded-lg text-sm lg:text-base font-medium text-white transition-all duration-300 hover:bg-[#4D3B38]/60">
                   Pricing
-                </a>
+                </Link>
               </nav>
             </div>
 
@@ -195,12 +191,12 @@ const Header = () => {
                 </svg>
               </button>
 
-              {isAuthenticated ? (
+              {isAuthenticated && hasRole("admin") ? (
                 <div ref={userMenuRef} className="relative">
                   <button
                     onClick={() => setUserMenuOpen(!userMenuOpen)}
                     className="flex items-center gap-2 h-10 pl-1 pr-3 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 transition-colors"
-                    aria-label="User menu"
+                    aria-label="Admin menu"
                   >
                     <span className="w-8 h-8 rounded-full bg-btn-gradient text-white text-sm font-semibold flex items-center justify-center">
                       {userInitial}
@@ -211,28 +207,18 @@ const Header = () => {
                   {userMenuOpen && (
                     <div className="absolute top-full right-0 mt-2 w-56 bg-[#231311] border border-[#533531] rounded-xl shadow-2xl overflow-hidden z-50">
                       <div className="px-4 py-3 border-b border-[#533531]">
-                        <div className="text-white text-sm font-medium truncate">
-                          {user?.user_metadata?.full_name || "Student"}
-                        </div>
+                        <div className="text-white text-sm font-medium truncate">Admin</div>
                         <div className="text-white/50 text-xs truncate">{user?.email}</div>
                       </div>
-                      <Link to="/dashboard" className="block px-4 py-2.5 text-white text-sm hover:bg-[#452824] transition-colors">
-                        My Dashboard
+                      <Link to="/admin" className="block px-4 py-2.5 text-white text-sm hover:bg-[#452824] transition-colors">
+                        Dashboard
                       </Link>
-                      <Link to="/dashboard/courses" className="block px-4 py-2.5 text-white text-sm hover:bg-[#452824] transition-colors">
-                        My Courses
+                      <Link to="/admin/applications" className="block px-4 py-2.5 text-white text-sm hover:bg-[#452824] transition-colors">
+                        Applications
                       </Link>
-                      <Link to="/profile" className="block px-4 py-2.5 text-white text-sm hover:bg-[#452824] transition-colors">
-                        Profile
+                      <Link to="/admin/testimonials" className="block px-4 py-2.5 text-white text-sm hover:bg-[#452824] transition-colors">
+                        Testimonials
                       </Link>
-                      <Link to="/settings" className="block px-4 py-2.5 text-white text-sm hover:bg-[#452824] transition-colors">
-                        Settings
-                      </Link>
-                      {hasRole("admin") && (
-                        <Link to="/admin" className="block px-4 py-2.5 text-red-accent text-sm hover:bg-[#452824] transition-colors border-t border-[#533531]">
-                          ⚡ Admin Panel
-                        </Link>
-                      )}
                       <button
                         onClick={handleSignOut}
                         className="block w-full text-left px-4 py-2.5 text-white/70 text-sm hover:bg-[#452824] hover:text-white transition-colors border-t border-[#533531]"
@@ -243,24 +229,15 @@ const Header = () => {
                   )}
                 </div>
               ) : (
-                <>
-                  <Link
-                    to="/auth"
-                    className="hidden lg:flex h-10 text-sm xl:text-base min-w-fit cursor-pointer transition-all duration-300 focus:outline-none focus:ring-0 items-center justify-center font-semibold text-white border-2 border-red-accent rounded-lg py-4 px-4 xl:px-5 hover:bg-btn-gradient hover:border-red-accent"
-                  >
-                    <span className="flex items-center font-sans flex-shrink-0">Sign In</span>
-                  </Link>
-
-                  <Link
-                    to="/auth"
-                    className="hidden sm:flex h-10 px-4 xl:px-6 text-sm xl:text-base min-w-fit cursor-pointer transition-all duration-300 focus:outline-none focus:ring-0 items-center justify-center font-semibold text-white bg-btn-gradient border border-red-accent rounded-lg hover:opacity-90"
-                  >
-                    <span className="flex items-center font-sans flex-shrink-0 gap-2">
-                      Start Learning
-                      <ArrowRightIcon />
-                    </span>
-                  </Link>
-                </>
+                <Link
+                  to="/enroll"
+                  className="hidden sm:flex h-10 px-4 xl:px-6 text-sm xl:text-base min-w-fit cursor-pointer transition-all duration-300 focus:outline-none focus:ring-0 items-center justify-center font-semibold text-white bg-btn-gradient border border-red-accent rounded-lg hover:opacity-90"
+                >
+                  <span className="flex items-center font-sans flex-shrink-0 gap-2">
+                    Apply Now
+                    <ArrowRightIcon />
+                  </span>
+                </Link>
               )}
 
               <button
@@ -308,33 +285,23 @@ const Header = () => {
               Explore
             </Link>
 
+            <Link to="/enroll" className="text-lg text-white py-3 px-4 rounded-lg hover:bg-[#4D3B38]/60 transition-colors" onClick={() => setMobileMenuOpen(false)}>
+              Apply
+            </Link>
+
             <a href="/?scrollTo=pricing" className="text-lg text-white py-3 px-4 rounded-lg hover:bg-[#4D3B38]/60 transition-colors" onClick={() => setMobileMenuOpen(false)}>
               Pricing
             </a>
 
             <div className="mt-6 flex flex-col gap-3 px-4">
-              {isAuthenticated ? (
-                <>
-                  <Link to="/dashboard" className="h-12 text-base flex items-center justify-center font-semibold text-white border-2 border-red-accent rounded-lg" onClick={() => setMobileMenuOpen(false)}>
-                    My Dashboard
-                  </Link>
-                  <button
-                    onClick={() => { handleSignOut(); setMobileMenuOpen(false); }}
-                    className="h-12 text-base flex items-center justify-center font-semibold text-white bg-btn-gradient border border-red-accent rounded-lg"
-                  >
-                    Sign Out
-                  </button>
-                </>
-              ) : (
-                <>
-                  <Link to="/auth" className="h-12 text-base flex items-center justify-center font-semibold text-white border-2 border-red-accent rounded-lg" onClick={() => setMobileMenuOpen(false)}>
-                    Sign In
-                  </Link>
-                  <Link to="/auth" className="h-12 text-base flex items-center justify-center font-semibold text-white bg-btn-gradient border border-red-accent rounded-lg gap-2" onClick={() => setMobileMenuOpen(false)}>
-                    Start Learning
-                    <ArrowRightIcon />
-                  </Link>
-                </>
+              <Link to="/enroll" className="h-12 text-base flex items-center justify-center font-semibold text-white bg-btn-gradient border border-red-accent rounded-lg gap-2" onClick={() => setMobileMenuOpen(false)}>
+                Apply Now
+                <ArrowRightIcon />
+              </Link>
+              {isAuthenticated && hasRole("admin") && (
+                <Link to="/admin" className="h-12 text-base flex items-center justify-center font-semibold text-white border-2 border-red-accent rounded-lg" onClick={() => setMobileMenuOpen(false)}>
+                  Admin Panel
+                </Link>
               )}
             </div>
           </nav>

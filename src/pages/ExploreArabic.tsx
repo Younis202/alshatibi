@@ -79,7 +79,7 @@ const faqs = [
   {
     question: "How do I get started with Al Shatibi TV?",
     answer:
-      "Simply create your account to begin your 7-Day free trial. You'll get full access to all premium courses, series and features. No commitment — cancel anytime.",
+      "Simply fill in our short application form and our team will reach out within 24 hours to guide you through enrollment and your personalized learning plan.",
   },
   {
     question: "Is the full tafsir included?",
@@ -127,8 +127,8 @@ const ExploreArabic = () => {
             description="Understand the Quran in its original language using a proven curriculum that has worked for over 10,000 people. Access the entire program for only <strong>$11/month</strong>."
             teacherImage="https://ik.imagekit.io/ihhlj9kpd/488614341_2493238344350710_6837098965978550032_n%20(1).jpg"
             teacherName=" Sheikh Ahmed Seraj"
-            buttonText="Join Al Shatibi TV"
-            buttonLink="/contact"
+            buttonText="Apply to Join the Academy"
+            buttonLink="/enroll?goal=arabic"
             heroImage="https://explore.bayyinahtv.com/wp-content/uploads/2025/06/Website-Thumbnail-5.png"
           />
           <CourseSlider
@@ -140,9 +140,9 @@ const ExploreArabic = () => {
           <ExploreFAQ faqs={faqs} />
           <ExploreCTA
             heading="Start Your Journey Today."
-            description="Learn step by step, at your own pace, only on Al Shatibi TV."
-            buttonText="Start learning from just $11/month"
-            buttonLink="/contact"
+            description="Apply now and our team will guide you to the right Arabic program."
+            buttonText="Apply to Join the Academy"
+            buttonLink="/enroll?goal=arabic"
           />
         </div>
       </div>

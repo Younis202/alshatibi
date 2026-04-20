@@ -59,8 +59,8 @@ const ExploreHeroMain = () => {
 
             <AnimateOnScroll delay={0.4}>
               <div className="flex flex-wrap mt-4 items-center justify-center gap-x-2">
-                <a href="/contact" className="primary-btn maroon text-white">
-                  <span>Start Your 7-Day Free Trial</span>
+                <a href="/enroll" className="primary-btn maroon text-white">
+                  <span>Apply to Join the Academy</span>
                 </a>
               </div>
             </AnimateOnScroll>

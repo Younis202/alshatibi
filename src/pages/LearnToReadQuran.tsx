@@ -39,7 +39,7 @@ const faqs = [
   {
     question: "How do I get started with Al Shatibi TV?",
     answer:
-      "Simply create your account to begin your 7-Day free trial. You'll get full access to all premium courses, series and features. No commitment — cancel anytime.",
+      "Simply fill in our short application form and our team will reach out within 24 hours to guide you through enrollment and your personalized learning plan.",
   },
   {
     question: "Is the full tafsir included?",
@@ -88,8 +88,8 @@ const LearnToReadQuran = () => {
             description="A step-by-step journey to reading the words of Allah fluently and fearlessly. No prior experience needed. Access the entire series for only&nbsp;<strong>$11/month</strong> on Al Shatibi TV."
             teacherImage="https://ik.imagekit.io/ihhlj9kpd/488614341_2493238344350710_6837098965978550032_n%20(1).jpg"
             teacherName=" Sheikh Ahmed Seraj & Live Sessions by: Maheen Khan"
-            buttonText="Watch Lessons on Al Shatibi TV"
-            buttonLink="/contact"
+            buttonText="Apply to Join the Academy"
+            buttonLink="/enroll?goal=reading"
             secondaryButtonText="Join Discussion on Circle"
             secondaryButtonLink="https://family.bayyinah.com/join?invitation_token=23c86ca84cc4af4e1b72004f3aad85beaccb68c9-63ec9d71-8ac0-4a78-a06d-127d8f5255e5"
             heroImage="https://explore.bayyinahtv.com/wp-content/uploads/2025/06/Learn-to-Read-Quran-1-thumb.jpg"
@@ -195,10 +195,10 @@ const LearnToReadQuran = () => {
                 </AnimateOnScroll>
                 <AnimateOnScroll delay={0.1}>
                   <p className="text-[#ffeada] mt-4 font-sans">
-                    <a href="/contact" className="underline">
-                      Explore free for 7 days
-                    </a>
-                    , then continue for only $11/month.
+                    <a href="/enroll?goal=reading" className="underline">
+                      Apply now
+                    </a>{" "}
+                    and our team will help you start with the right plan.
                   </p>
                 </AnimateOnScroll>
               </div>
@@ -285,8 +285,8 @@ const LearnToReadQuran = () => {
         <ExploreCTA
           heading="Your Journey Starts Here"
           description="The Quran was made easy. Let's take your first step together."
-          buttonText="Watch Lessons on Al Shatibi TV"
-          buttonLink="/contact"
+          buttonText="Apply to Join the Academy"
+          buttonLink="/enroll?goal=reading"
           secondaryButtonText="Join Discussion on Circle"
           secondaryButtonLink="https://family.bayyinah.com/join?invitation_token=23c86ca84cc4af4e1b72004f3aad85beaccb68c9-63ec9d71-8ac0-4a78-a06d-127d8f5255e5"
         />

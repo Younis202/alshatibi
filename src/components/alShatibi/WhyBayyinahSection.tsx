@@ -41,11 +41,11 @@ const WhyBayyinahSection = () => {
           </AnimateOnScroll>
           <AnimateOnScroll delay={0.3}>
             <Link
-              to="/contact"
+              to="/enroll"
               className="h-10 px-6 text-base min-w-fit cursor-pointer border transition-color duration-300 focus:outline-none focus:ring-0 inline-flex items-center justify-center font-semibold primary-btn maroon no-margin !border-0 mx-auto"
             >
               <span className="flex items-center font-sans flex-shrink-0 text-sm md:text-base text-white font-semibold inline-flex items-center">
-                Start Your 7-Day Free Trial
+                Apply to Join the Academy
               </span>
             </Link>
           </AnimateOnScroll>

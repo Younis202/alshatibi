@@ -125,7 +125,7 @@ const faqs = [
   {
     question: "How do I get started with Al Shatibi TV?",
     answer:
-      "Simply create your account to begin your 7-Day free trial. You'll get full access to all premium courses, series and features. No commitment — cancel anytime.",
+      "Simply fill in our short application form and our team will reach out within 24 hours to guide you through enrollment, scheduling and your personalized learning plan.",
   },
   {
     question: "Is the full tafsir included?",
@@ -192,9 +192,9 @@ const Explore = () => {
           <ExploreFAQ faqs={faqs} />
           <ExploreCTA
             heading="Start Your Journey Today."
-            description="Learn step by step, at your own pace, only on Al Shatibi TV."
-            buttonText="Start learning from just $11/month"
-            buttonLink="/contact"
+            description="Apply now and our team will help you find the perfect program for your goals."
+            buttonText="Apply to Join the Academy"
+            buttonLink="/enroll"
           />
         </div>
       </div>

@@ -1,6 +1,8 @@
+import { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 import { AnimateOnScroll } from "@/hooks/useScrollAnimation";
+import { supabase } from "@/integrations/supabase/client";
 // @ts-ignore
 import "swiper/css";
 // @ts-ignore
@@ -18,25 +20,40 @@ const HalfStarIcon = () => (
   </svg>
 );
 
-const reviews = [
-  {
-    name: "Safiya Mahad Qamar",
-    image: "https://www.bayyinahtv.com/_nuxt/safiya.CVpc0YRW.png",
-    text: "Al Shatibi TV app is amazing, it has given me a much deeper understanding of the Quran alhamdulilah and it has improved my Arabic substantially. I love the new update.",
-  },
-  {
-    name: "William Prochazka",
-    image: "https://www.bayyinahtv.com/_nuxt/william.BjY05-E2.png",
-    text: "I can learn the meaning of the short Surahs I know in English, and make sure that every single time I perform Salat, I reflect on every word. You really have to do that.",
-  },
-  {
-    name: "Ayesha Salahuddin",
-    image: "https://www.bayyinahtv.com/_nuxt/ayesha.CxL2c6_6.png",
-    text: "It's a really effective use of my time when I'm commuting. Whether you're a student, a new mom, or working from home, you can just plug it in or download the audio, which is great!",
-  },
+interface Testimonial {
+  id: string;
+  student_name: string;
+  country: string | null;
+  avatar_url: string | null;
+  testimonial: string;
+}
+
+// Fallback testimonials when none in DB yet
+const fallback: Testimonial[] = [
+  { id: "f1", student_name: "Safiya Mahad Qamar", country: "UK", avatar_url: "https://www.bayyinahtv.com/_nuxt/safiya.CVpc0YRW.png", testimonial: "Al Shatibi Academy gave me a much deeper understanding of the Quran alhamdulillah and improved my Arabic substantially. The teachers genuinely care." },
+  { id: "f2", student_name: "William Prochazka", country: "USA", avatar_url: "https://www.bayyinahtv.com/_nuxt/william.BjY05-E2.png", testimonial: "I can finally understand the meanings of the Surahs I recite in Salah. Every lesson connects me deeper to the words of Allah." },
+  { id: "f3", student_name: "Ayesha Salahuddin", country: "Canada", avatar_url: "https://www.bayyinahtv.com/_nuxt/ayesha.CxL2c6_6.png", testimonial: "Flexible scheduling, world-class scholars, and a personal touch. Whether you're a working professional or a stay-at-home mom — they make it work." },
 ];
 
 const ReviewsSection = () => {
+  const [reviews, setReviews] = useState<Testimonial[]>(fallback);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      const { data, error } = await supabase
+        .from("testimonials")
+        .select("id, student_name, country, avatar_url, testimonial")
+        .eq("is_published", true)
+        .order("display_order", { ascending: true })
+        .limit(12);
+      if (!cancelled && !error && data && data.length > 0) {
+        setReviews(data as Testimonial[]);
+      }
+    })();
+    return () => { cancelled = true; };
+  }, []);
+
   return (
     <div className="relative pt-12 md:pt-16 lg:py-16 xl:py-[72px] bg-[rgb(30_21_25/var(--tw-bg-opacity,1))]">
       <div className="absolute top-0 left-0 w-full rcardbg">
@@ -46,9 +63,9 @@ const ReviewsSection = () => {
         <div className="md:max-w-[250px] lg:max-w-[400px] flex-shrink-0 xl:max-w-[35%] w-full">
           <div className="flex flex-row gap-x-4 sm:gap-6 md:gap-4 lg:gap-8 xl:gap-8 xxl:gap-[60px] mb-8 mb:mb-10 xl:mb-12">
             {[
-              { val: "500k", label: "Learners worldwide" },
+              { val: "500+", label: "Students worldwide" },
               { val: "+20y", label: "Teaching experience" },
-              { val: "2000h", label: "Video content available" },
+              { val: "30+", label: "Countries reached" },
             ].map((stat, i) => (
               <AnimateOnScroll key={stat.val} delay={i * 0.1}>
                 <div className="flex-1 text-center sm:text-left xl:text-center">
@@ -68,7 +85,7 @@ const ReviewsSection = () => {
                 <StarIcon /><StarIcon /><StarIcon /><StarIcon /><HalfStarIcon />
               </div>
               <p className="dark:text-white font-sans text-base text-white lg:text-lg xl:text-xl">
-                Rated 4.5 across 25k members
+                Loved by students from around the world
               </p>
             </div>
           </AnimateOnScroll>
@@ -76,14 +93,25 @@ const ReviewsSection = () => {
         <AnimateOnScroll delay={0.2} className="reviewslider md:max-w-[57%] w-full z-10 mt-8 md:mt-0">
           <Swiper modules={[Pagination]} spaceBetween={24} slidesPerView="auto" pagination={{ clickable: true }} className="!pr-6 md:!pr-8 lg:!pr-10 xxl:!pr-24">
             {reviews.map((review) => (
-              <SwiperSlide key={review.name}>
+              <SwiperSlide key={review.id}>
                 <div className="relative p-6 flex flex-col lg:flex-row gap-5 xl:gap-6 2xl:gap-8 rounded-xl md:rounded-2xl xl:rounded-3xl bg-[#111111] border border-[#343434] h-full">
                   <div className="shrink-0">
-                    <img src={review.image} className="w-[48px] h-[48px] lg:w-[52px] lg:h-[52px] xl:w-[64px] xl:h-[64px] 2xl:w-[74px] 2xl:h-[74px] rounded-full object-cover object-top" alt={review.name} />
+                    {review.avatar_url ? (
+                      <img src={review.avatar_url} className="w-[48px] h-[48px] lg:w-[52px] lg:h-[52px] xl:w-[64px] xl:h-[64px] 2xl:w-[74px] 2xl:h-[74px] rounded-full object-cover object-top" alt={review.student_name} />
+                    ) : (
+                      <div className="w-[48px] h-[48px] lg:w-[52px] lg:h-[52px] xl:w-[64px] xl:h-[64px] 2xl:w-[74px] 2xl:h-[74px] rounded-full bg-red-accent/20 text-red-accent flex items-center justify-center text-xl font-semibold">
+                        {review.student_name[0]}
+                      </div>
+                    )}
                   </div>
                   <div className="flex flex-col justify-between shrink-0 lg:shrink grow lg:grow-0 lg:justify-start">
-                    <div className="mb-6 text-base text-white">{review.text}</div>
-                    <div className="mt-auto text-base font-semibold text-white lg:text-lg">{review.name}</div>
+                    <div className="mb-6 text-base text-white">{review.testimonial}</div>
+                    <div className="mt-auto">
+                      <div className="text-base font-semibold text-white lg:text-lg">{review.student_name}</div>
+                      {review.country && (
+                        <div className="text-xs text-white/50 font-sans mt-0.5">{review.country}</div>
+                      )}
+                    </div>
                   </div>
                 </div>
               </SwiperSlide>

@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
 
 export type CourseRow = {
   id: string;
@@ -58,155 +57,43 @@ export type CategoryRow = {
   icon: string | null;
 };
 
-export const useCourses = (opts?: { featured?: boolean; categorySlug?: string }) => {
-  return useQuery({
-    queryKey: ["courses", opts?.featured, opts?.categorySlug],
-    queryFn: async () => {
-      let q = supabase
-        .from("courses")
-        .select("*, categories(name, slug), instructors(id, name, avatar_url, title)")
-        .eq("status", "published")
-        .order("display_order", { ascending: true });
-      if (opts?.featured) q = q.eq("is_featured", true);
-      const { data, error } = await q;
-      if (error) throw error;
-      if (opts?.categorySlug) {
-        return (data ?? []).filter((c: any) => c.categories?.slug === opts.categorySlug);
-      }
-      return data ?? [];
-    },
-  });
-};
+const empty = async (): Promise<any[]> => [];
+const emptySingle = async (): Promise<any> => null;
 
-export const useCourse = (slug: string | undefined) => {
-  return useQuery({
-    enabled: !!slug,
-    queryKey: ["course", slug],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("courses")
-        .select("*, categories(name, slug), instructors(*)")
-        .eq("slug", slug!)
-        .maybeSingle();
-      if (error) throw error;
-      return data;
-    },
-  });
-};
+export const useCourses = (_opts?: { featured?: boolean; categorySlug?: string }) =>
+  useQuery({ queryKey: ["courses-stub"], queryFn: empty });
 
-export const useLessons = (courseId: string | undefined) => {
-  return useQuery({
-    enabled: !!courseId,
-    queryKey: ["lessons", courseId],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("lessons")
-        .select("*")
-        .eq("course_id", courseId!)
-        .order("display_order", { ascending: true });
-      if (error) throw error;
-      return data ?? [];
-    },
-  });
-};
+export const useCourse = (slug: string | undefined) =>
+  useQuery({ enabled: !!slug, queryKey: ["course-stub", slug], queryFn: emptySingle });
 
-export const useCategories = () => {
-  return useQuery({
-    queryKey: ["categories"],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("categories")
-        .select("*")
-        .order("display_order", { ascending: true });
-      if (error) throw error;
-      return data ?? [];
-    },
-  });
-};
+export const useLessons = (courseId: string | undefined) =>
+  useQuery({ enabled: !!courseId, queryKey: ["lessons-stub", courseId], queryFn: empty });
 
-export const useInstructors = () => {
-  return useQuery({
-    queryKey: ["instructors"],
-    queryFn: async () => {
-      const { data, error } = await supabase.from("instructors").select("*").order("name");
-      if (error) throw error;
-      return data ?? [];
-    },
-  });
-};
+export const useCategories = () =>
+  useQuery({ queryKey: ["categories-stub"], queryFn: empty });
 
-export const useEnrollment = (courseId: string | undefined, userId: string | undefined) => {
-  return useQuery({
+export const useInstructors = () =>
+  useQuery({ queryKey: ["instructors-stub"], queryFn: empty });
+
+export const useEnrollment = (courseId: string | undefined, userId: string | undefined) =>
+  useQuery({
     enabled: !!courseId && !!userId,
-    queryKey: ["enrollment", courseId, userId],
-    queryFn: async () => {
-      const { data } = await supabase
-        .from("enrollments")
-        .select("*")
-        .eq("course_id", courseId!)
-        .eq("user_id", userId!)
-        .maybeSingle();
-      return data;
-    },
+    queryKey: ["enrollment-stub", courseId, userId],
+    queryFn: emptySingle,
   });
-};
 
-export const useMyEnrollments = (userId: string | undefined) => {
-  return useQuery({
-    enabled: !!userId,
-    queryKey: ["my-enrollments", userId],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("enrollments")
-        .select("*, courses(*, categories(name), instructors(name, avatar_url))")
-        .eq("user_id", userId!)
-        .order("last_accessed_at", { ascending: false });
-      if (error) throw error;
-      return data ?? [];
-    },
-  });
-};
+export const useMyEnrollments = (userId: string | undefined) =>
+  useQuery({ enabled: !!userId, queryKey: ["my-enrollments-stub", userId], queryFn: empty });
 
-export const useCourseProgress = (courseId: string | undefined, userId: string | undefined) => {
-  return useQuery({
+export const useCourseProgress = (courseId: string | undefined, userId: string | undefined) =>
+  useQuery({
     enabled: !!courseId && !!userId,
-    queryKey: ["progress", courseId, userId],
-    queryFn: async () => {
-      const { data } = await supabase
-        .from("lesson_progress")
-        .select("*")
-        .eq("course_id", courseId!)
-        .eq("user_id", userId!);
-      return data ?? [];
-    },
+    queryKey: ["progress-stub", courseId, userId],
+    queryFn: empty,
   });
-};
 
-export const useReviews = (courseId: string | undefined) => {
-  return useQuery({
-    enabled: !!courseId,
-    queryKey: ["reviews", courseId],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("reviews")
-        .select("*, profiles!reviews_user_id_fkey(full_name, avatar_url)")
-        .eq("course_id", courseId!)
-        .eq("is_approved", true)
-        .order("created_at", { ascending: false });
-      if (error) {
-        // fallback without join
-        const { data: simple } = await supabase
-          .from("reviews")
-          .select("*")
-          .eq("course_id", courseId!)
-          .eq("is_approved", true)
-          .order("created_at", { ascending: false });
-        return simple ?? [];
-      }
-      return data ?? [];
-    },
-  });
-};
+export const useReviews = (courseId: string | undefined) =>
+  useQuery({ enabled: !!courseId, queryKey: ["reviews-stub", courseId], queryFn: empty });
 
 export const formatDuration = (minutes: number) => {
   if (!minutes) return "0m";

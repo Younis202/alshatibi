@@ -118,10 +118,10 @@ const HeroSection = () => {
           }}
         >
           <Link
-            to="/contact"
+            to="/enroll"
             className="group inline-flex items-center gap-3 h-12 px-7 text-sm md:text-base font-semibold text-white rounded-lg border transition-color duration-300 focus:outline-none focus:ring-0 flex items-center justify-center font-semibold primary-btn maroon trans no-margin"
           >
-            <span className="font-sans">Start Your 7-Day Free Trial</span>
+            <span className="font-sans">Apply to Join the Academy</span>
             <span className="flex items-center justify-center w-7 h-7 rounded-full transition-colors duration-300">
               <PlayIcon />
             </span>

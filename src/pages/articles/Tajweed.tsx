@@ -357,10 +357,10 @@ const Tajweed = () => {
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Link
-                    to="/contact"
+                    to="/enroll?goal=tajweed"
                     className="inline-flex items-center justify-center gap-2 h-12 px-8 text-base font-semibold text-white rounded-lg primary-btn maroon transition-all"
                   >
-                    Start Your Free Trial
+                    Apply to Join the Academy
                   </Link>
                   <Link
                     to="/explore/quran"

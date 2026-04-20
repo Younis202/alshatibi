@@ -1,7 +1,6 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Link } from "react-router-dom";
 import { AnimateOnScroll } from "@/hooks/useScrollAnimation";
-import { useCourses } from "@/hooks/useCourses";
 // @ts-ignore
 import "swiper/css";
 
@@ -14,21 +13,25 @@ const StackIcon = () => (
   </svg>
 );
 
+const programs = [
+  {
+    title: "Hifz & Tajweed",
+    subtitle: "Quran Memorization",
+    image: "https://www.bayyinahtv.com/_nuxt/course-1.CCzIhRaj.png",
+  },
+  {
+    title: "Tafseer & Reflection",
+    subtitle: "Understand the Quran",
+    image: "https://www.bayyinahtv.com/_nuxt/course-2.6E1ZzyGy.png",
+  },
+  {
+    title: "Quranic Arabic",
+    subtitle: "Step-by-Step Arabic",
+    image: "https://www.bayyinahtv.com/_nuxt/oourse-3.Cvgcu6V3.png",
+  },
+];
+
 const CoursesSection = () => {
-  const { data: courses } = useCourses({ featured: true });
-  const display = (courses ?? []).slice(0, 3);
-
-  const items = display.length > 0 ? display.map((c: any) => ({
-    title: c.title,
-    subtitle: c.subtitle ?? "Study the Quran",
-    image: c.thumbnail_url ?? "https://www.bayyinahtv.com/_nuxt/course-1.CCzIhRaj.png",
-    href: `/courses/${c.slug}`,
-  })) : [
-    { title: "Surah-by-Surah Tafseer", subtitle: "Study the Quran", image: "https://www.bayyinahtv.com/_nuxt/course-1.CCzIhRaj.png", href: "/courses" },
-    { title: "Subject-by-Subject Quran", subtitle: "Study the Quran", image: "https://www.bayyinahtv.com/_nuxt/course-2.6E1ZzyGy.png", href: "/courses" },
-    { title: "Step-by-Step Arabic", subtitle: "Study Quranic Arabic", image: "https://www.bayyinahtv.com/_nuxt/oourse-3.Cvgcu6V3.png", href: "/courses" },
-  ];
-
   return (
     <div className="relative pt-12 md:pt-16 bg-[rgb(30_21_25/var(--tw-bg-opacity,1))]">
       <div className="absolute top-0 left-0 w-full h-ful">
@@ -37,25 +40,25 @@ const CoursesSection = () => {
       <div className="max-w-[1280px] px-5 md:px-8 lg:px-8 w-full mx-auto relative z-10 opacity-300">
         <div className="pr-5 mb-10 text-center lg:mb-16 md:pr-8 lg:pr-0">
           <AnimateOnScroll>
-            <div className="tag-large maroon white">Study the entire Quran with us</div>
+            <div className="tag-large maroon white">Personalized Quran journey</div>
           </AnimateOnScroll>
           <AnimateOnScroll delay={0.1}>
             <h2 className="text-[#FFEADA] mb-6 font-light has-6-xl-font-size font-heading lg:mb-8 dark:text-grey-brand">
-              Courses Designed to Meet You Where You're At
+              Programs Designed to Meet You Where You're At
             </h2>
           </AnimateOnScroll>
           <AnimateOnScroll delay={0.2}>
             <p className="text-white font-sans text-base lg:text-lg xl:text-xl mb-4 max-w-[620px] lg:max-w-[700px] xl:max-w-[772px] w-full mx-auto">
-              Whether you're a passive listener or an active note-taker, our selection of courses lays the groundwork for a personalized Quran journey, ensuring that no learner feels overwhelmed or intimidated.
+              From your first letters of Arabic to deep Tafseer with our scholars — we tailor a path that matches your level, goals, and schedule.
             </p>
           </AnimateOnScroll>
         </div>
         <div className="-mx-3 courses-slider">
           <Swiper spaceBetween={0} slidesPerView="auto" className="">
-            {items.map((course, i) => (
+            {programs.map((course, i) => (
               <SwiperSlide key={course.title + i}>
                 <AnimateOnScroll delay={i * 0.15}>
-                  <Link to={course.href} className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">
+                  <Link to="/enroll" className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">
                     <div className="px-2.5 overflow-hidden lg:px-3">
                       <div className="relative rounded-lg">
                         <div className="relative w-full h-[280px] md:h-[300px] lg:h-auto 2xl:h-[448px]">

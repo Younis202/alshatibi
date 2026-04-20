@@ -187,11 +187,11 @@ const PricingSection = () => {
                     <td className="w-1/4 py-4 sm:py-5 xl:py-6 sm:w-1/3"></td>
                     <td className="w-1/3 py-4 text-center sm:py-5 xl:py-6">
                       <Link
-                        to="/contact"
+                        to="/enroll"
                         className="h-10 px-6 text-base min-w-fit cursor-pointer border transition-color duration-300 focus:outline-none focus:ring-0 inline-flex items-center justify-center font-semibold primary-btn maroon no-margin !border-0"
                       >
                         <span className="flex items-center flex-shrink-0 text-sm md:text-base text-white font-semibold inline-flex items-center">
-                          Start 7-Day Free Trial
+                          Apply to Join
                           <span className="icon !-mt-[2px]">
                             <ArrowIcon />
                           </span>

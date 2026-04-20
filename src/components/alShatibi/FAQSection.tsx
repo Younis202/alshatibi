@@ -29,7 +29,7 @@ const faqs = [
   },
   {
     q: "How do I get started with Al Shatibi TV?",
-    a: "Simply create your account to begin your 7-Day free trial. You'll get full access to all premium courses, series and features. No commitment — cancel anytime.",
+    a: "Simply fill in our short application form and our team will reach out within 24 hours to guide you through enrollment, scheduling and your personalized learning plan.",
   },
   {
     q: "Is the full tafsir included?",

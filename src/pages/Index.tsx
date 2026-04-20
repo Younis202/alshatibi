@@ -12,7 +12,7 @@ import CTASection from "@/components/alShatibi/CTASection";
 
 const homeFaqs = [
   { question: "What is Al Shatibi TV?", answer: "Al Shatibi TV is an online platform that offers a wide range of high-quality, meticulously curated courses on Quran studies and Arabic language. It is designed to cater to learners at all levels." },
-  { question: "How do I get started with Al Shatibi TV?", answer: "Simply create your account to begin your 7-Day free trial. You'll get full access to all premium courses, series and features. No commitment — cancel anytime." },
+  { question: "How do I get started with Al Shatibi TV?", answer: "Simply fill in our short application form and our team will reach out within 24 hours to guide you through enrollment, scheduling and your personalized learning plan." },
   { question: "Is the full tafsir included?", answer: "Yes, a full tafsir is included in the Concise Commentary series. Sheikh Ahmed Seraj is also working his way through the Deeper Look series, which provides more detailed insights into various Surahs." },
   { question: "Is there a full Arabic curriculum?", answer: "Yes, Al Shatibi TV offers a comprehensive Arabic curriculum, ranging from how to read the alphabet to advanced reading texts. Our courses cover everything you need to master the Arabic language." },
   { question: "How is Al Shatibi TV different from other Quran study platforms?", answer: "Al Shatibi TV offers a unique, immersive experience with meticulously researched content presented in an easy-to-understand format. Our platform features smart related-content suggestions, personalized dashboards and the ability to switch between video and audio formats for flexible learning." },
